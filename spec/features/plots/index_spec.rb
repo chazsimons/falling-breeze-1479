@@ -23,12 +23,6 @@ RSpec.describe 'Plots Index Page' do
     @pp_5 = PlotPlant.create!({plot_id: @plot_3.id, plant_id: @plant_4.id})
   end
 
-  # User Story 1, Plots Index Page
-  # As a visitor
-  # When I visit the plots index page ('/plots')
-  # I see a list of all plot numbers
-  # And under each plot number I see names of all that plot's plants
-
   it 'provides a list of each plot and their plants' do
     visit '/plots'
 
