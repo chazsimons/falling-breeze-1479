@@ -11,4 +11,9 @@ class Garden < ApplicationRecord
                     end.flatten!.uniq!
     unique_plants
   end
+
+  # def unique_plants
+  #   require "pry"; binding.pry
+  #   plots
+  # end
 end

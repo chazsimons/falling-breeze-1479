@@ -1,5 +1,10 @@
 <h1> <%= @garden.name %></h1>
 
 <% @garden.get_plants.each do |plant| %>
-  <p><%= plant %></p>
+   <p><%= plant %></p>
 <% end %>
+
+
+<%# <% @garden.unique_plants.each do |plot| %>
+    <%# <%= plant.name if plant.under_one_hundred %> %>
+<%# <% end %> %> %>
