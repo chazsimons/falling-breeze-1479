@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Plots Index Page' do
+RSpec.describe 'Gardens Show Page' do
   before :each do
     @tcg = Garden.create!({name: 'Turing Community Garden', organic: true})
     @vegas = Garden.create!(name: 'Vegas Roots', organic: false)
@@ -15,33 +15,35 @@ RSpec.describe 'Plots Index Page' do
     @plant_2 = Plant.create!({name: 'Big Basil', description: 'Needs rich soil', time_to_harvest: 10})
     @plant_3 = Plant.create!({name: "Sally's Serving Flowers", description: 'needs lots of water', time_to_harvest: 20})
     @plant_4 = Plant.create!({name: 'Bugs Carrots', description: 'Plant them and forget them', time_to_harvest: 18})
+    @plant_5 = Plant.create!({name: 'Super Acai Berry', description: 'Worth the wait', time_to_harvest: 101})
 
     @pp_1 = PlotPlant.create!({plot_id: @plot_1.id, plant_id: @plant_1.id})
     @pp_2 = PlotPlant.create!({plot_id: @plot_1.id, plant_id: @plant_2.id})
     @pp_3 = PlotPlant.create!({plot_id: @plot_1.id, plant_id: @plant_3.id})
     @pp_4 = PlotPlant.create!({plot_id: @plot_2.id, plant_id: @plant_3.id})
     @pp_5 = PlotPlant.create!({plot_id: @plot_3.id, plant_id: @plant_4.id})
+    @pp_6 = PlotPlant.create!({plot_id: @plot_1.id, plant_id: @plant_5.id})
   end
 
-  it 'provides a list of each plot and their plants' do
-    visit '/plots'
+#   User Story 3, Garden's Plants
+# As a visitor
+# When I visit an garden's show page
+# Then I see a list of plants that are included in that garden's plots
+# And I see that this list is unique (no duplicate plants)
+# And I see that this list only includes plants that take less than 100 days to harvest
 
-    expect(page).to have_content(@plot_1.number)
-    expect(page).to have_content(@plot_2.number)
-    expect(page).to have_content(@plot_3.number)
-    expect(page).to have_content(@plot_4.number)
+  it 'lists the distinct plants available in all plots' do
+    visit "/gardens/#{@tcg.id}"
+
     expect(page).to have_content(@plant_1.name)
-    expect(page).to have_content(@plant_3.name)
+    expect(page).to have_content(@plant_2.name)
+    expect(page).to have_content(@plant_3.name, count: 1)
   end
 
-  it 'can remove a plant from a plot' do
-    visit '/plots'
+  it 'does not list plants that take longer than 100 days' do
+    visit "/gardens/#{@tcg.id}"
 
-    expect(page).to have_link("Remove #{@plant_1.name} from Plot")
-
-    click_link "Remove #{@plant_1.name} from Plot"
-
-    expect(page).to_not have_content(@plant_1.name)
-    expect(current_path).to eq('/plots')
+    expect(page).to have_content(@plant_3.name, count: 1)
+    expect(page).to_not have_content(@plant_5.name)
   end
 end
