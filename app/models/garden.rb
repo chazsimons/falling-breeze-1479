@@ -7,7 +7,7 @@ class Garden < ApplicationRecord
     unique_plants = plots.map do |plot|
                       plot.plants.map do |plant|
                         plant.name if plant.under_one_hundred
-                      end
+                      end.compact
                     end.flatten!.uniq!
     unique_plants
   end
