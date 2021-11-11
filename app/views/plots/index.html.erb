@@ -1,8 +1,8 @@
-<h1>Lost the Plot?</h1>
+<h1>Lost the Plots?</h1>
 
 <% @plots.each do |plot| %>
   <h2><p>Plot #: <%= plot.number %></p></h2>
     Plants: <% plot.plants.each do |plant| %>
-      <p><%= plant.name %></p>
+      <p><%= plant.name %> <%= link_to "Remove #{plant.name} from Plot", "/plots/#{plot.id}/plants/#{plant.id}", method: :delete %></p>
     <% end %>
 <% end %>
